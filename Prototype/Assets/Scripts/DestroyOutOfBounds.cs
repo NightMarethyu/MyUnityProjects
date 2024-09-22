@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DestroyOutOfBounds : MonoBehaviour
 {
+    // Ammon Turner - Destroy Out Of Bounds
+
     private float topBound = 30;
     private float lowerBound = -10;
 

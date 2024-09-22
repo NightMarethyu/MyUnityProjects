@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    // Ammon Turner - Spawn Manager
+
     public GameObject[] animals = new GameObject[3];
     private float xSpawnRange = 20;
     private float zSpawn = 20;
@@ -15,12 +17,6 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         InvokeRepeating("SpawnRandomAnimal", startDelay, spawnInterval);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void SpawnRandomAnimal()
