@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Ammon Turner
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRb;
