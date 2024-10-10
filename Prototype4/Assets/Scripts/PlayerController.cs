@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    // Ammon Turner
     private Rigidbody playerRb;
     private GameObject focalPoint;
     public float speed = 5.0f;

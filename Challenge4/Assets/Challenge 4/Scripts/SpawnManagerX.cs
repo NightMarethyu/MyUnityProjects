@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpawnManagerX : MonoBehaviour
 {
+    // Ammon Turner
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
 

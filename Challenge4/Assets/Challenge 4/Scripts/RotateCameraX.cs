@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RotateCameraX : MonoBehaviour
 {
+    // Ammon Turner
     private float speed = 200;
     public GameObject player;
 

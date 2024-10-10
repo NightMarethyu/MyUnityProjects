@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    // Ammon Turner
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
     private float spawnRange = 9f;

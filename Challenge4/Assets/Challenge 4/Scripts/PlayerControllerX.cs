@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerControllerX : MonoBehaviour
 {
+    //Ammon Turner
     private Rigidbody playerRb;
     private float speed = 500;
     private float boost = 5;
@@ -21,8 +22,7 @@ public class PlayerControllerX : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         focalPoint = GameObject.Find("Focal Point");
-        var emission = boostParticles.emission;
-        emission.enabled = true;  // Enable emission
+        Instantiate(boostParticles, transform.position, boostParticles.transform.rotation);
 
     }
 

@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     public float speed;
     private Rigidbody enemyRb;
     private GameObject player;
+    // Ammon Turner
 
     // Start is called before the first frame update
     void Start()
