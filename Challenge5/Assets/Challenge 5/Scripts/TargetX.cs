@@ -15,7 +15,7 @@ public class TargetX : MonoBehaviour
     private float minValueY = -3.75f; // the y value of the center of the bottom-most square
     private float spaceBetweenSquares = 2.5f; // the distance between the centers of squares on the game board
     
-
+    // Ammon Turner
     void Start()
     {
         rb = GetComponent<Rigidbody>();

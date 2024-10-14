@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GameManagerX : MonoBehaviour
 {
+    // Ammon Turner
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI timer;

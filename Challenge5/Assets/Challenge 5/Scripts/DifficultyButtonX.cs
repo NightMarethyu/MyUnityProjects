@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DifficultyButtonX : MonoBehaviour
 {
+    // Ammon Turner
     private Button button;
     private GameManagerX gameManagerX;
     public int difficulty;
@@ -25,7 +26,4 @@ public class DifficultyButtonX : MonoBehaviour
         Debug.Log(button.gameObject.name + " was clicked");
         gameManagerX.StartGame(difficulty);
     }
-
-
-
 }
