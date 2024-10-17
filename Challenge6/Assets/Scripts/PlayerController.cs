@@ -32,7 +32,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Power Up")
+        {
+            Destroy(collision.gameObject);
+            Enemy[] enemies = FindObjectsOfType<Enemy>();
+            foreach(Enemy enemy in enemies)
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
+    }
 
 }
 
