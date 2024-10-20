@@ -4,60 +4,104 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    [Header("Game Objects")]
     public Transform player;
-    public Transform orbitPosition;  // Center of orbit
+    public GameObject bulletPrefab; // Reference to bullet prefab
+    public Transform bulletSpawnPoint; // Location where bullets spawn
+
+    [Header("Enemy Settings")]
     public float moveSpeed = 5f;
     public float attackRange = 10f;
-    public float orbitSpeed = 2f;
+    public float fireRate = 2f; // Time between each shot
+    public float weaponPower = 10f;
 
     private Rigidbody enemyRb;
     private bool playerDetected = false;
-    private float currentAngle = 0f;  // Store angle for orbit
+    private float nextFireTime; // Timer for next bullet fire
+    private float health = 30f;
 
     void Start()
     {
+        if (player == null)
+        {
+            GameObject playerObject = GameObject.FindWithTag("Player");
+            if (playerObject != null)
+            {
+                player = playerObject.transform;
+            }
+            else
+            {
+                Debug.LogError("Player object not found in the scene!");
+            }
+        }
+
         enemyRb = GetComponent<Rigidbody>();
-        enemyRb.drag = 1f;  // Adjust drag to prevent excessive acceleration
     }
+
 
     void FixedUpdate()
     {
-        if (transform.position.y < -5)  // Destroy if it falls out of bounds
-        {
-            Destroy(gameObject);
-        }
+        DetectAndChasePlayer();
 
-        if (!playerDetected && Vector3.Distance(transform.position, player.position) < attackRange)
-        {
-            playerDetected = true;  // Lock on to the player
-        }
+        if (playerDetected && Time.time >= nextFireTime) { 
+            AlignBulletSpawnPoint();
 
-        Vector3 forceDirection;
+            ShootAtPlayer();
+            nextFireTime = Time.time + fireRate; // Schedule the next shot
+        }
+    }
+
+    private void DetectAndChasePlayer()
+    {
+        if (!playerDetected && Vector3.Distance(transform.position, player.transform.position) < attackRange)
+        {
+            playerDetected = true;
+        }
 
         if (playerDetected)
         {
-            // Track and move towards the player
-            forceDirection = (player.position - transform.position).normalized;
+            Vector3 forceDirection = (player.transform.position - transform.position).normalized;
+            enemyRb.AddForce(forceDirection * moveSpeed);
         }
-        else
+    }
+
+    private void AlignBulletSpawnPoint()
+    {
+        Vector3 directionToPlayer = player.transform.position - bulletSpawnPoint.position;
+        directionToPlayer.y = 0;
+
+        if (directionToPlayer != Vector3.zero)
         {
-            // Smooth orbit using a tangential force
-            currentAngle += orbitSpeed * Time.fixedDeltaTime;  // Increment angle over time
-
-            // Calculate the offset for circular movement
-            Vector3 offset = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
-
-            // Target position along the orbit path
-            Vector3 targetPosition = orbitPosition.position + offset;
-
-            // Compute the force direction towards the target position
-            Vector3 tangentDirection = new Vector3(-Mathf.Sin(currentAngle), 0, Mathf.Cos(currentAngle));
-
-            // Ensure the force points tangentially, simulating circular orbit
-            forceDirection = tangentDirection.normalized;
+            bulletSpawnPoint.rotation = Quaternion.LookRotation(directionToPlayer);
         }
+    }
 
-        // Apply force to the Rigidbody
-        enemyRb.AddForce(forceDirection * moveSpeed, ForceMode.Acceleration);
+    private void ShootAtPlayer()
+    {
+        Vector3 direction = (player.transform.position - bulletSpawnPoint.position).normalized;
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+
+        // Assign the direction to the bullet
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        bullet.GetComponent<SpawnBullet>().SetDamage(weaponPower);
+        bulletRb.AddForce(direction * 50f, ForceMode.Impulse);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            TakeDamage(collision.gameObject.GetComponent<SpawnBullet>().damage);
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
