@@ -14,11 +14,16 @@ public class EnemyMovement : MonoBehaviour
     public float attackRange = 10f;
     public float fireRate = 2f; // Time between each shot
     public float weaponPower = 10f;
+    public GameObject deathParticle;
+    public AudioClip deathSound;
 
     private Rigidbody enemyRb;
     private bool playerDetected = false;
     private float nextFireTime; // Timer for next bullet fire
-    private float health = 30f;
+    private float health;
+    private int pointValue;
+    private GameManager gameManager;
+    private AudioSource enemyAudio;
 
     void Start()
     {
@@ -36,6 +41,9 @@ public class EnemyMovement : MonoBehaviour
         }
 
         enemyRb = GetComponent<Rigidbody>();
+        enemyAudio = GetComponent<AudioSource>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        SetDifficulty(gameManager.difficulty);
     }
 
 
@@ -101,7 +109,38 @@ public class EnemyMovement : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            Instantiate(deathParticle, gameObject.transform.position, gameObject.transform.rotation);
+            enemyAudio.PlayOneShot(deathSound, 1.0f);
+            gameManager.UpdateScore(pointValue);
             Destroy(gameObject);
+        }
+    }
+
+    private void SetDifficulty(int difficulty)
+    {
+        if (difficulty == 5)
+        {
+            health = 20;
+            pointValue = 20;
+            attackRange = 10;
+            fireRate = 2;
+            weaponPower = 10;
+        }
+        else if (difficulty == 8)
+        {
+            health = 30;
+            pointValue = 30;
+            attackRange = 25;
+            fireRate = 1.5f;
+            weaponPower = 15;
+        }
+        else if (difficulty == 10)
+        {
+            health = 40;
+            pointValue = 50;
+            playerDetected = true;
+            fireRate = 1;
+            weaponPower = 20;
         }
     }
 }

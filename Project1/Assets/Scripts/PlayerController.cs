@@ -7,12 +7,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb;
     private GameObject focalPoint;
 
-    //[Header("Movement Settings")]
-    private float maxVelocity = 80f;
-    private float acceleration = 20f;  // New parameter to control force application rate.
-    private float drag = 2f;            // Helps slow down the player when no input is given.
-
     public float playerHealth = 100;
+    public delegate void OnHealthChange(float newHealth);
+    public event OnHealthChange onHealthChange;
+
+    [Header("Movement Settings")]
+    public float maxVelocity = 80f;
+    public float acceleration = 20f;  // New parameter to control force application rate.
+    public float drag = 2f;            // Helps slow down the player when no input is given.
 
     [Header("Bullet Settings")]
     public GameObject bullet;
@@ -104,6 +106,17 @@ public class PlayerController : MonoBehaviour
         {
             playerHealth = 100;
         }
+
+        if (onHealthChange != null)
+        {
+            onHealthChange(playerHealth);
+        }
+    }
+
+    public void ResetPlayer()
+    {
+        playerHealth = 100;
+        playerRb.transform.position = new Vector3(-90, 1, 90);
     }
 
     public void WeaponUpgrade(float damage)

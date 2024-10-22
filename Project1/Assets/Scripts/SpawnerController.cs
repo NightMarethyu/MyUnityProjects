@@ -7,13 +7,13 @@ public class SpawnerController : MonoBehaviour
     [Header("Enemy Spawn Settings")]
     public List<Vector3> enemySpawnLocations;
     public GameObject enemyPrefab;
-    public int numberOfEnemies = 5;
+    public int numberOfEnemies;
 
     // TODO: add health packs maybe weapon upgrades/powerups
 
-    // Start is called before the first frame update
-    void Start()
+    public void BeginSpawning(int difficulty)
     {
+        numberOfEnemies = difficulty;
         List<Vector3> usedEnemyLocations = new();
         for (int i = 0; i < numberOfEnemies; i++)
         {
