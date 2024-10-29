@@ -2388,8 +2388,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHealth: 100
-  maxVelocity: 300
-  acceleration: 85
+  maxVelocity: 200
+  acceleration: 53
   drag: 1.5
   bullet: {fileID: 184882485104477352, guid: fb5959d3e9603f349ad49d20df735c4e, type: 3}
   bulletSpawner: {fileID: 641908666}
@@ -4029,7 +4029,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
